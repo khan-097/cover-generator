@@ -10,11 +10,11 @@
     
     <style>
         :root {
-            --primary: #ff0000;
+            --primary: #c30010;
             --secondary: #1877F2;
             --bg: #f0f2f5;
             --white: #ffffff;
-            --text: #1c1e21;
+            --success: #28a745;
         }
 
         body {
@@ -30,37 +30,40 @@
 
         .container {
             width: 100%;
-            max-width: 600px; /* ফর্মটি মাঝখানে রাখার জন্য উইডথ কমানো হয়েছে */
+            max-width: 500px;
             background: var(--white);
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
             overflow: hidden;
-            display: flex;
-            flex-direction: column;
         }
 
         .header {
-            background: linear-gradient(135deg, var(--primary), #d90429);
+            background: linear-gradient(135deg, var(--primary), #800000);
             color: white;
-            padding: 20px;
+            padding: 25px;
             text-align: center;
         }
 
-        .header h1 { margin: 0; font-size: 22px; letter-spacing: 1px; }
+        .header h1 { margin: 0; font-size: 20px; letter-spacing: 1px; }
 
-        .main-content {
-            padding: 30px;
+        .main-content { padding: 30px; }
+
+        .form-section h3 { 
+            margin-top: 0; 
+            color: var(--primary); 
+            border-left: 4px solid var(--primary); 
+            padding-left: 12px; 
+            font-size: 18px; 
+            margin-bottom: 25px;
         }
-
-        .form-section h3 { margin-top: 0; color: var(--primary); border-left: 4px solid var(--primary); padding-left: 10px; font-size: 18px; }
         
-        .input-group { margin-bottom: 15px; position: relative; }
-        .input-group i { position: absolute; left: 15px; top: 42px; color: #888; }
-        label { display: block; margin-bottom: 5px; font-weight: 600; color: #555; font-size: 14px; }
+        .input-group { margin-bottom: 18px; position: relative; }
+        .input-group i { position: absolute; left: 15px; top: 43px; color: #888; }
+        label { display: block; margin-bottom: 6px; font-weight: 600; color: #444; font-size: 14px; }
         
         input {
             width: 100%;
-            padding: 12px 15px 12px 40px;
+            padding: 12px 15px 12px 42px;
             border: 1.5px solid #ddd;
             border-radius: 10px;
             font-size: 14px;
@@ -68,26 +71,49 @@
             transition: 0.3s;
         }
 
-        input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 8px rgba(255,0,0,0.1); }
+        input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 8px rgba(195,0,16,0.1); }
 
+        /* ছবি আপলোড বক্স */
         .file-upload {
             border: 2px dashed var(--primary);
-            border-radius: 10px;
-            padding: 15px;
+            border-radius: 12px;
+            padding: 20px;
             text-align: center;
             background: #fff5f5;
             cursor: pointer;
             position: relative;
-            margin: 15px 0;
+            margin: 20px 0;
+            transition: 0.3s;
+        }
+        .file-upload.uploaded {
+            border-color: var(--success);
+            background: #f0fff4;
         }
         .file-upload input { position: absolute; opacity: 0; width: 100%; height: 100%; top: 0; left: 0; cursor: pointer; }
-        .file-upload i { font-size: 24px; color: var(--primary); display: block; margin-bottom: 5px; }
+        .file-upload i { font-size: 28px; color: var(--primary); display: block; margin-bottom: 8px; }
+        .file-upload.uploaded i { color: var(--success); }
+        .file-upload b { color: #555; font-size: 14px; transition: 0.3s; }
+        .file-upload.uploaded b { color: var(--success); }
 
-        .action-btns { display: flex; gap: 10px; margin-top: 20px; }
-        .btn { flex: 1; padding: 14px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.3s; font-size: 16px; }
+        /* বাটন স্টাইল */
+        .action-btns { display: flex; flex-direction: column; gap: 12px; margin-top: 25px; }
+        .btn { 
+            width: 100%; 
+            padding: 15px; 
+            border: none; 
+            border-radius: 10px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 10px; 
+            transition: 0.3s; 
+            font-size: 16px; 
+        }
         
         .btn-download { background: var(--primary); color: white; }
-        .btn-download:hover { background: #b9041e; transform: translateY(-2px); }
+        .btn-download:hover { background: #a0000d; transform: translateY(-2px); }
         
         .btn-reset { background: #6c757d; color: white; }
         .btn-reset:hover { background: #5a6268; }
@@ -106,16 +132,14 @@
             border-radius: 50px;
             box-shadow: 0 8px 15px rgba(24, 119, 242, 0.2);
             transition: 0.3s;
-            text-transform: uppercase;
         }
-        .dev-button:hover { transform: scale(1.03); background: #1877F2; }
+        .dev-button:hover { transform: scale(1.05); }
 
-        /* ক্যানভাস হাইড করে রাখা হয়েছে */
+        /* ক্যানভাস হাইড */
         #coverCanvas { display: none; }
 
         @media (max-width: 480px) {
-            .container { border-radius: 0; height: 100vh; max-width: 100%; }
-            .action-btns { flex-direction: column; }
+            .container { border-radius: 0; min-height: 100vh; }
         }
     </style>
 </head>
@@ -155,10 +179,10 @@
                 <input type="text" id="userAddress" placeholder="Paickgacha, Khulna" autocomplete="off">
             </div>
 
-            <div class="file-upload">
-                <i class="fas fa-cloud-upload-alt"></i>
-                <b>ছবি নির্বাচন করুন</b>
-                <input type="file" id="userImage" accept="image/*">
+            <div class="file-upload" id="uploadBox">
+                <i class="fas fa-cloud-upload-alt" id="uploadIcon"></i>
+                <b id="statusText">ছবি নির্বাচন করুন</b>
+                <input type="file" id="userImage" accept="image/*" onchange="handleImageSelection(this)">
             </div>
             
             <div class="action-btns">
@@ -187,7 +211,22 @@
     const templateImg = new Image();
     templateImg.src = 'template.png'; 
 
-    // ডাউনলোড বাটনে ক্লিক করলে ছবি তৈরি হবে এবং ডাউনলোড হবে
+    // ছবি সিলেক্ট করলে স্ট্যাটাস আপডেট করার ফাংশন
+    function handleImageSelection(input) {
+        const statusText = document.getElementById('statusText');
+        const uploadBox = document.getElementById('uploadBox');
+        const uploadIcon = document.getElementById('uploadIcon');
+
+        if (input.files && input.files[0]) {
+            let fileName = input.files[0].name;
+            if(fileName.length > 22) fileName = fileName.substring(0, 20) + "...";
+            
+            statusText.innerHTML = "ছবি যুক্ত হয়েছে: " + fileName;
+            uploadBox.classList.add('uploaded');
+            uploadIcon.className = "fas fa-check-circle";
+        }
+    }
+
     document.getElementById('download-btn').addEventListener('click', function() {
         const name = document.getElementById('userName').value || "MD JUNAID KHAN";
         const email = document.getElementById('userEmail').value || "example@gmail.com";
@@ -195,7 +234,7 @@
         const address = document.getElementById('userAddress').value || "Paickgacha, Khulna";
         const imageInput = document.getElementById('userImage');
 
-        // ক্যানভাসে ড্র করা শুরু
+        // ক্যানভাস ড্রয়িং শুরু
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(templateImg, 0, 0, canvas.width, canvas.height);
 
@@ -229,35 +268,28 @@
                     let sw, sh, sx, sy;
 
                     if (imgAspect > targetAspect) {
-                        sh = img.height;
-                        sw = sh * targetAspect;
-                        sx = (img.width - sw) / 2;
-                        sy = 0;
+                        sh = img.height; sw = sh * targetAspect;
+                        sx = (img.width - sw) / 2; sy = 0;
                     } else {
-                        sw = img.width;
-                        sh = sw / targetAspect;
-                        sx = 0;
-                        sy = (img.height - sh) / 2;
+                        sw = img.width; sh = sw / targetAspect;
+                        sx = 0; sy = (img.height - sh) / 2;
                     }
 
                     ctx.drawImage(img, sx, sy, sw, sh, centerX - radius, centerY - radius, radius * 2, radius * 2);
                     ctx.restore();
-
-                    // ড্রয়িং শেষ হলে ডাউনলোড ট্রিগার হবে
                     triggerDownload();
                 };
                 img.src = e.target.result;
             };
             reader.readAsDataURL(imageInput.files[0]);
         } else {
-            // যদি ছবি সিলেক্ট না করা থাকে তবে ডিফল্ট ডাউনলোড
             triggerDownload();
         }
     });
 
     function triggerDownload() {
         const link = document.createElement('a');
-        link.download = 'Facebook_Cover_By_Junaid.png';
+        link.download = 'Cover_By_Junaid.png';
         link.href = canvas.toDataURL('image/png');
         link.click();
     }
