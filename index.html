@@ -133,20 +133,14 @@
 
         .btn-reset { background: rgba(0,0,0,0.1); color: var(--text-color); }
 
-        .footer-credit {
-            text-align: center;
+        .credit {
             margin-top: 30px;
             font-size: 14px;
-            color: #666;
-            width: 100%;
-            display: block;
+            opacity: 0.8;
         }
 
-        .footer-credit a {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: bold;
-        }
+        .credit a { color: var(--primary-color); text-decoration: none; font-weight: bold; }
+        .credit a:hover { text-decoration: underline; }
 
         @media (max-width: 900px) {
             .app-container { grid-template-columns: 1fr; padding: 20px; }
@@ -190,10 +184,14 @@
             <button class="btn btn-dl" id="download-btn"><i class="fas fa-download"></i> ডাউনলোড</button>
             <button class="btn btn-reset" onclick="location.reload()"><i class="fas fa-sync-alt"></i> রিসেট</button>
         </div>
+
+        <div class="credit">
+            Developed with ❤️ by <a href="https://www.facebook.com/Junaid.Khan.097" target="_blank">Junaid Khan</a>
+        </div>
     </div>
 
     <div class="preview-panel">
-        <canvas id="coverCanvas" width="1024" height="400"></canvas>
+        <canvas id="coverCanvas" width="1200" height="444"></canvas>
         <p style="opacity: 0.6; font-size: 13px;"><i class="fas fa-info-circle"></i> লাইভ প্রিভিউ এখানে দেখা যাবে</p>
     </div>
 </div>
@@ -209,56 +207,52 @@
     templateImg.onload = () => drawCover();
 
     function drawCover() {
-        // তথ্যগুলি পূরণ না করলে ডিফল্ট মান দেখাবে
-        const name = document.getElementById('userName').value || "MD JUNAID KHAN";
+        const name = document.getElementById('userName').value || "Junaid Khan";
         const email = document.getElementById('userEmail').value || "example@gmail.com";
         const phone = document.getElementById('userPhone').value || "+880 12345678";
         const address = document.getElementById('userAddress').value || "Khulna, Bangladesh";
         const imageInput = document.getElementById('userImage');
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        // প্রথমে টেমপ্লেট ইমেজ ড্র করা
         ctx.drawImage(templateImg, 0, 0, canvas.width, canvas.height);
 
         // টেক্সট ড্রয়িং এবং পজিশনিং (টেমপ্লেট অনুযায়ী নিখুঁতভাবে সংশোধন করা)
         ctx.textAlign = "left";
-        
-        // নাম (কালো কালার, Bold, এবং সঠিক পজিশন)
-        ctx.fillStyle = "#000000";
+        ctx.fillStyle = "#333333";
+
+        // নাম (Bold, Large, এবং সঠিক পজিশন)
         ctx.font = "bold 44px 'Hind Siliguri'";
-        // টেমপ্লেট অনুযায়ী পজিশন: x= ৫৮, y= ১৮১
-        ctx.fillText(name.toUpperCase(), 58, 181);
+        ctx.fillText(name.toUpperCase(), 60, 195);
 
         // ছোট তথ্যগুলো (ইমেইল, ফোন, ঠিকানা)
         ctx.font = "500 21px 'Hind Siliguri'";
-        ctx.fillStyle = "#000000"; // কালো কালার
+        ctx.fillStyle = "#444444";
         
         // টেমপ্লেট অনুযায়ী নিখুঁত পজিশনিং
-        // আইকনের সাথে অ্যালাইন করতে x= ১০৪ ব্যবহার করা হয়েছে
-        ctx.fillText(email, 104, 282); // জিমেইল y= ২৮২
-        ctx.fillText(phone, 104, 342); // ফোন y= ৩৪২
-        ctx.fillText(address, 104, 402); // ঠিকানা y= ৪০২
+        // আইকনের সাথে অ্যালাইন করতে x= ১০৫ ব্যবহার করা হয়েছে
+        ctx.fillText(email, 105, 285);
+        ctx.fillText(phone, 105, 345);
+        ctx.fillText(address, 105, 405);
 
-        // ৩. ছবি হ্যান্ডলিং এবং পজিশনিং
+        // ৩. ছবি হ্যান্ডলিং (বৃত্তাকার এবংপূর্ণ আকার)
         if (imageInput.files && imageInput.files[0]) {
             const reader = new FileReader();
             reader.onload = function(e) {
                 const img = new Image();
                 img.onload = function() {
                     ctx.save();
-                    // বৃত্তাকার সাদা ফ্রেমের সঠিক কেন্দ্র এবং আকার (টেমপ্লেট অনুযায়ী নিখুঁতভাবে ক্যালিব্রেট করা)
-                    // ১০২৪x৪০০ পিক্সেল ইমেজে বৃত্তের কেন্দ্র প্রায় x= ৭৯০, y= ২১৩
-                    const centerX = 790; 
-                    const centerY = 213;
-                    const radius = 145; // বৃত্তের ব্যাসার্ধ ১৪৫ পিক্সেল
+                    // বৃত্তাকার সাদা ফ্রেমের সঠিক কেন্দ্র এবং আকার (টেমপ্লেট অনুযায়ী ক্যালিব্রেট করা)
+                    const centerX = 910; 
+                    const centerY = 221;
+                    const radius = 170; // ব্যাসার্ধ ১৭০ পিক্সেল (সাদা বৃত্ত পূর্ণ করতে)
 
                     ctx.beginPath();
                     ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-                    ctx.closePath();
                     ctx.clip(); // বৃত্তাকার মাস্কিং চালু করা
 
                     // ছবিটি ড্র করা (AspectRatio ঠিক রেখে এবং বৃত্তের পুরো জায়গা জুড়ে নিখুঁতভাবে বসানো)
                     // ছবিটিকে সঠিক কেন্দ্রে বসাতে centerX - radius এবং centerY - radius ব্যবহার করা হয়েছে
+                    // radius * 2 ব্যবহার করা হয়েছে যাতে ছবিটি বৃত্ত পূর্ণ করে
                     ctx.drawImage(img, centerX - radius, centerY - radius, radius * 2, radius * 2);
                     ctx.restore(); // মাস্কিং বন্ধ করা
                 };
@@ -268,20 +262,12 @@
         }
     }
 
-    // ডাউনলোড বাটন লজিক
     document.getElementById('download-btn').addEventListener('click', () => {
         const link = document.createElement('a');
-        link.download = 'Cover-Studio-By-Junaid.png';
+        link.download = 'Cover-By-Junaid.png';
         link.href = canvas.toDataURL('image/png');
         link.click();
     });
-
-    // ক্রেডিট সেকশন যোগ করা এবং ব্যবহারকারীর ফেসবুক প্রোফাইলে লিঙ্ক করা
-    const credit = document.createElement('div');
-    credit.classList.add('footer-credit');
-    // 'YOUR_FACEBOOK_PROFILE_LINK' এর জায়গায় তোমার ফেসবুক প্রোফাইলের লিঙ্ক বসাও
-    credit.innerHTML = 'Developed with ❤️ by <a href="https://www.facebook.com/Junaid.Khan.097" target="_blank">Junaid Khan</a>';
-    document.querySelector('.app-container').after(credit);
 </script>
 
 </body>
