@@ -39,7 +39,6 @@
             flex-direction: column;
         }
 
-        /* Header Styles */
         .header {
             background: linear-gradient(135deg, var(--primary), #d90429);
             color: white;
@@ -56,7 +55,6 @@
             padding: 30px;
         }
 
-        /* Form Styling */
         .form-section h3 { margin-top: 0; color: var(--primary); border-left: 4px solid var(--primary); padding-left: 10px; }
         
         .input-group { margin-bottom: 15px; position: relative; }
@@ -75,7 +73,6 @@
 
         input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 8px rgba(255,0,0,0.1); }
 
-        /* Custom File Upload */
         .file-upload {
             border: 2px dashed var(--primary);
             border-radius: 10px;
@@ -89,17 +86,16 @@
         .file-upload input { position: absolute; opacity: 0; width: 100%; height: 100%; top: 0; left: 0; cursor: pointer; }
         .file-upload i { font-size: 24px; color: var(--primary); display: block; margin-bottom: 5px; }
 
-        /* Preview Section */
         .preview-section { text-align: center; background: #fafafa; padding: 20px; border-radius: 15px; }
         canvas { width: 100%; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
 
-        .action-btns { display: flex; gap: 10px; margin-top: 20px; }
-        .btn { flex: 1; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.3s; }
+        .action-btns { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+        .btn { flex: 1; min-width: 120px; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.3s; }
+        .btn-preview { background: var(--secondary); color: white; }
         .btn-download { background: var(--primary); color: white; }
         .btn-download:hover { background: #b9041e; transform: translateY(-2px); }
         .btn-reset { background: #6c757d; color: white; }
 
-        /* Highlighted Developer Button */
         .dev-footer { padding: 30px; text-align: center; background: #f8f9fa; border-top: 1px solid #eee; }
         .dev-button {
             display: inline-flex;
@@ -141,46 +137,48 @@
             <div class="input-group">
                 <label>আপনার নাম</label>
                 <i class="fas fa-user"></i>
-                <input type="text" id="userName" placeholder="যেমন: MD JUNAID KHAN" oninput="drawCover()">
+                <input type="text" id="userName" placeholder="যেমন: MD JUNAID KHAN" autocomplete="off">
             </div>
             <div style="display: flex; gap: 10px;">
                 <div class="input-group" style="flex: 1;">
                     <label>জিমেইল</label>
                     <i class="fas fa-envelope"></i>
-                    <input type="email" id="userEmail" placeholder="example@gmail.com" oninput="drawCover()">
+                    <input type="email" id="userEmail" placeholder="example@gmail.com">
                 </div>
                 <div class="input-group" style="flex: 1;">
                     <label>ফোন নম্বর</label>
                     <i class="fas fa-phone"></i>
-                    <input type="text" id="userPhone" placeholder="017XXXXXXXX" oninput="drawCover()">
+                    <input type="text" id="userPhone" placeholder="017XXXXXXXX">
                 </div>
             </div>
             <div class="input-group">
                 <label>ঠিকানা</label>
                 <i class="fas fa-map-marker-alt"></i>
-                <input type="text" id="userAddress" placeholder="Paickgacha, Khulna" oninput="drawCover()">
+                <input type="text" id="userAddress" placeholder="Paickgacha, Khulna" autocomplete="off">
             </div>
             <div class="file-upload">
                 <i class="fas fa-cloud-upload-alt"></i>
                 <b>ছবি নির্বাচন করুন</b>
-                <input type="file" id="userImage" accept="image/*" onchange="drawCover()">
+                <input type="file" id="userImage" accept="image/*">
             </div>
+            
             <div class="action-btns">
-                <button class="btn btn-download" id="download-btn"><i class="fas fa-download"></i> ডাউনলোড করুন</button>
+                <button class="btn btn-preview" onclick="drawCover()"><i class="fas fa-eye"></i> প্রিভিউ দেখুন</button>
+                <button class="btn btn-download" id="download-btn"><i class="fas fa-download"></i> ডাউনলোড</button>
                 <button class="btn btn-reset" onclick="location.reload()"><i class="fas fa-sync-alt"></i> রিসেট</button>
             </div>
         </div>
 
         <div class="preview-section">
-            <h4 style="margin-top: 0; color: #666;">লাইভ প্রিভিউ</h4>
+            <h4 style="margin-top: 0; color: #666;">ডিজাইন প্রিভিউ</h4>
             <canvas id="coverCanvas" width="1200" height="444"></canvas>
-            <p style="font-size: 12px; color: #999; margin-top: 10px;">* আপনার দেওয়া তথ্য অনুযায়ী এখানে ছবি তৈরি হবে</p>
+            <p style="font-size: 12px; color: #999; margin-top: 10px;">* প্রিভিউ বাটনে ক্লিক করলে এখানে ছবি তৈরি হবে</p>
         </div>
     </div>
 
     <div class="dev-footer">
         <a href="https://www.facebook.com/Junaid.Khan.097" target="_blank" class="dev-button">
-            <i class="fab fa-facebook"></i> Developer KHAN JUNAID
+            <i class="fab fa-facebook"></i> DEVELOPER JUNAID
         </a>
     </div>
 </div>
@@ -191,7 +189,10 @@
     const templateImg = new Image();
     templateImg.src = 'template.png'; 
 
-    templateImg.onload = () => drawCover();
+    templateImg.onload = () => {
+        // শুরুতে একটি ডিফল্ট ব্ল্যাঙ্ক টেমপ্লেট দেখানোর জন্য
+        ctx.drawImage(templateImg, 0, 0, canvas.width, canvas.height);
+    };
 
     function drawCover() {
         const name = document.getElementById('userName').value || "MD JUNAID KHAN";
@@ -200,34 +201,26 @@
         const address = document.getElementById('userAddress').value || "Paickgacha, Khulna";
         const imageInput = document.getElementById('userImage');
 
-        // ১. টেমপ্লেট আঁকা
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(templateImg, 0, 0, canvas.width, canvas.height);
 
-        // ২. টেক্সট সেটিংস (নিখুঁত পজিশনিং)
         ctx.fillStyle = "#222222";
         ctx.textAlign = "left";
-
-        // নাম (Bold & Precise)
         ctx.font = "bold 45px 'Hind Siliguri'";
         ctx.fillText(name.toUpperCase(), 60, 195);
 
-        // ছোট টেক্সট (আইকনের সাথে সামঞ্জস্য রেখে)
         ctx.font = "600 22px 'Hind Siliguri'";
         ctx.fillStyle = "#444444";
         ctx.fillText(email, 105, 285);
         ctx.fillText(phone, 105, 345);
         ctx.fillText(address, 105, 405);
 
-        // ৩. ছবির লজিক (Center Crop & Circle Mask)
         if (imageInput.files && imageInput.files[0]) {
             const reader = new FileReader();
             reader.onload = function(e) {
                 const img = new Image();
                 img.onload = function() {
                     ctx.save();
-                    
-                    // বৃত্তের মাপ (টেমপ্লেট অনুযায়ী)
                     const centerX = 910; 
                     const centerY = 221;
                     const radius = 175;
@@ -236,10 +229,8 @@
                     ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
                     ctx.clip();
 
-                    // --- সেন্টার ক্রপ লজিক (ছবি চ্যাপ্টা হবে না) ---
                     const imgAspect = img.width / img.height;
-                    const targetAspect = 1; // যেহেতু আমরা বর্গাকার/বৃত্তাকার চাই
-
+                    const targetAspect = 1;
                     let sw, sh, sx, sy;
 
                     if (imgAspect > targetAspect) {
@@ -254,9 +245,7 @@
                         sy = (img.height - sh) / 2;
                     }
 
-                    // ছবি আঁকা
                     ctx.drawImage(img, sx, sy, sw, sh, centerX - radius, centerY - radius, radius * 2, radius * 2);
-                    
                     ctx.restore();
                 };
                 img.src = e.target.result;
@@ -265,7 +254,6 @@
         }
     }
 
-    // ডাউনলোড
     document.getElementById('download-btn').addEventListener('click', () => {
         const link = document.createElement('a');
         link.download = 'Cover_By_Junaid.png';
@@ -275,4 +263,5 @@
 </script>
 
 </body>
-</html>
+                    </html>
+                    
