@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Cover Studio | By Junaid</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;500;700&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --accent: #ff4d4d;
+            --glass: rgba(255, 255, 255, 0.1);
+            --text: #ffffff;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Hind Siliguri', 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .app-container {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 30px;
+            max-width: 1300px;
+            width: 100%;
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+        }
+
+        /* Input Card Styling */
+        .input-panel h1 {
+            font-size: 28px;
+            margin-bottom: 25px;
+            background: linear-gradient(to right, #ff4d4d, #f9cb28);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .input-box {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .input-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255,255,255,0.5);
+            transition: 0.3s;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            color: white;
+            font-size: 15px;
+            transition: 0.4s;
+            box-sizing: border-box;
+        }
+
+        input:focus {
+            outline: none;
+            background: rgba(255,255,255,0.1);
+            border-color: var(--accent);
+            box-shadow: 0 0 15px rgba(255, 77, 77, 0.3);
+        }
+
+        input:focus + i { color: var(--accent); }
+
+        /* Custom File Input */
+        .file-upload {
+            position: relative;
+            background: rgba(255, 77, 77, 0.1);
+            border: 2px dashed var(--accent);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .file-upload:hover { background: rgba(255, 77, 77, 0.2); }
+        .file-upload input { position: absolute; opacity: 0; cursor: pointer; top: 0; left: 0; height: 100%; }
+
+        /* Preview Panel */
+        .preview-panel { text-align: center; }
+        
+        canvas {
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            margin-bottom: 20px;
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-dl { background: var(--accent); color: white; }
+        .btn-dl:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(255, 77, 77, 0.4); }
+
+        .btn-reset { background: rgba(255,255,255,0.1); color: white; }
+
+        .credit {
+            margin-top: 30px;
+            font-size: 13px;
+            opacity: 0.7;
+        }
+
+        .credit a { color: var(--accent); text-decoration: none; font-weight: bold; }
+
+        @media (max-width: 900px) {
+            .app-container { grid-template-columns: 1fr; padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <div class="input-panel">
+        <h1><i class="fas fa-magic"></i> Cover Studio</h1>
+        
+        <div class="input-box">
+            <input type="text" id="userName" placeholder="আপনার নাম লিখুন..." oninput="drawCover()">
+            <i class="fas fa-user"></i>
+        </div>
+
+        <div class="input-group" style="display: flex; gap: 10px;">
+            <div class="input-box" style="flex: 1;">
+                <input type="email" id="userEmail" placeholder="জিমেইল..." oninput="drawCover()">
+                <i class="fas fa-envelope"></i>
+            </div>
+            <div class="input-box" style="flex: 1;">
+                <input type="text" id="userPhone" placeholder="ফোন নম্বর..." oninput="drawCover()">
+                <i class="fas fa-phone"></i>
+            </div>
+        </div>
+
+        <div class="input-box">
+            <input type="text" id="userAddress" placeholder="আপনার ঠিকানা..." oninput="drawCover()">
+            <i class="fas fa-map-marker-alt"></i>
+        </div>
+
+        <div class="file-upload">
+            <i class="fas fa-cloud-upload-alt" style="font-size: 30px; color: var(--accent);"></i>
+            <p style="margin: 10px 0 0 0; font-weight: 500;">এখানে ছবি আপলোড করুন</p>
+            <input type="file" id="userImage" accept="image/*" onchange="drawCover()">
+        </div>
+
+        <div class="action-btns" style="margin-top: 25px;">
+            <button class="btn btn-dl" id="download-btn"><i class="fas fa-download"></i> ডাউনলোড</button>
+            <button class="btn btn-reset" onclick="location.reload()"><i class="fas fa-sync-alt"></i> রিসেট</button>
+        </div>
+
+        <div class="credit">
+            Developed with ❤️ by <a href="https://www.facebook.com/Junaid.Khan.097" target="_blank">Junaid Khan</a>
+        </div>
+    </div>
+
+    <div class="preview-panel">
+        <canvas id="coverCanvas" width="1200" height="444"></canvas>
+        <p style="opacity: 0.6; font-size: 13px;"><i class="fas fa-info-circle"></i> লাইভ প্রিভিউ এখানে দেখা যাবে</p>
+    </div>
+</div>
+
+<script>
+    const canvas = document.getElementById('coverCanvas');
+    const ctx = canvas.getContext('2d');
+    const templateImg = new Image();
+    templateImg.src = 'template.png'; 
+
+    templateImg.onload = () => drawCover();
+
+    function drawCover() {
+        const name = document.getElementById('userName').value || "Junaid Khan";
+        const email = document.getElementById('userEmail').value || "example@gmail.com";
+        const phone = document.getElementById('userPhone').value || "+880 12345678";
+        const address = document.getElementById('userAddress').value || "Khulna, Bangladesh";
+        const imageInput = document.getElementById('userImage');
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(templateImg, 0, 0, canvas.width, canvas.height);
+
+        // টেক্সট ড্রয়িং (পজিশন আপনার টেমপ্লেট অনুযায়ী নিখুঁত করা)
+        ctx.fillStyle = "#333333";
+        ctx.textAlign = "left";
+
+        ctx.font = "bold 44px 'Hind Siliguri'";
+        ctx.fillText(name.toUpperCase(), 60, 195);
+
+        ctx.font = "500 21px 'Hind Siliguri'";
+        ctx.fillStyle = "#444444";
+        ctx.fillText(email, 105, 285);
+        ctx.fillText(phone, 105, 345);
+        ctx.fillText(address, 105, 405);
+
+        if (imageInput.files && imageInput.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    ctx.save();
+                    const centerX = 910; 
+                    const centerY = 221;
+                    const radius = 170;
+                    ctx.beginPath();
+                    ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+                    ctx.clip();
+                    ctx.drawImage(img, centerX - radius, centerY - radius, radius * 2, radius * 2);
+                    ctx.restore();
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(imageInput.files[0]);
+        }
+    }
+
+    document.getElementById('download-btn').addEventListener('click', () => {
+        const link = document.createElement('a');
+        link.download = 'Cover-By-Junaid.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+    });
+</script>
+
+</body>
+</html>
